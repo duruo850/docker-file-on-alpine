@@ -1,5 +1,5 @@
 {
-	"data_dir": "/data",
+	"data_dir": "/consul/data",
 	"ui_dir": "/ui",
 	"client_addr": "0.0.0.0",
 	"ports": {
