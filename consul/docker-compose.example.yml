@@ -64,3 +64,13 @@ services:
         links:
             - "consul_server1:consul_server1"
         command: " -server -join consul_server1"
+
+    # 服务注册器：监听容器中暴露的端口，端口发生变化，通知注册中心作出相应处理
+    registrator:
+        image: gliderlabs/registrator:master
+        container_name: "registrator"
+        hostname: "registrator"
+        restart: always
+        volumes:
+        - "/var/run/docker.sock:/tmp/docker.sock"
+        command: -internal consul://192.168.1.136:8500
