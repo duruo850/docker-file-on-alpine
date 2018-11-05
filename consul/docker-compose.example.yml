@@ -5,6 +5,11 @@ services:
         container_name: "consul_server1"
         hostname: "consul_server1"
         restart: always
+# 同一个机器上面不能使用多个容器共享volume，/consul/data里面还有consul的私人数据：比如node-id,这个是容器私有信息
+# 分布式需要采用consul的集群同步
+#        volumes:
+#            - /consul/data:/consul/data
+#            - /consul/config:/consul/config
         ports:
             - "8300-8302:8300-8302"
             - "8301-8302:8301-8302/udp"
@@ -14,6 +19,11 @@ services:
         container_name: "consul_server2"
         hostname: "consul_server2"
         restart: always
+# 同一个机器上面不能使用多个容器共享volume，/consul/data里面还有consul的私人数据：比如node-id,这个是容器私有信息
+# 分布式需要采用consul的集群同步
+#        volumes:
+#            - /consul/data:/consul/data
+#            - /consul/config:/consul/config
         ports:
             - "8300-8302"
             - "8301-8302/udp"
@@ -25,6 +35,11 @@ services:
         container_name: "consul_server3"
         hostname: "consul_server3"
         restart: always
+# 同一个机器上面不能使用多个容器共享volume，/consul/data里面还有consul的私人数据：比如node-id,这个是容器私有信息
+# 分布式需要采用consul的集群同步
+#        volumes:
+#            - /consul/data:/consul/data
+#            - /consul/config:/consul/config
         ports:
             - "8300-8302"
             - "8301-8302/udp"
@@ -37,6 +52,11 @@ services:
         container_name: "consul_web"
         hostname: "consul_web"
         restart: always
+# 同一个机器上面不能使用多个容器共享volume，/consul/data里面还有consul的私人数据：比如node-id,这个是容器私有信息
+# 分布式需要采用consul的集群同步
+#        volumes:
+#            - /consul/data:/consul/data
+#            - /consul/config:/consul/config
         ports:
             - "8400:8400"
             - "8500:8500"
