@@ -20,9 +20,9 @@ http {
     access_log  /usr/local/openresty/nginx/logs/access.log  main;
 
     server {
-        listen 80
+        listen 80;
         #listen 443 ssl;
-        server_name localhost;
+        server_name  localhost;
         #ssl on;
 
         #gzip  on;
@@ -45,7 +45,7 @@ http {
         }
 
         location /account {
-            proxy_pass http://accout
+            proxy_pass http://account;
         }
     }
 

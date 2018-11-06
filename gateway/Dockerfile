@@ -12,15 +12,19 @@ ENV CONSUL_TEMPLATE_VERSION 0.19.5
 
 
 RUN cd /usr/bin \
-    && wget
-    && curl -fSL https://releases.hashicorp.com/consul-template/0.19.5/consul-template_$CONSUL_TEMPLATE_VERSION_linux_amd64.zip -o consul-template.zip \
+    && apk add --no-cache \
+        supervisor \
+        curl \
+    && curl -fSL https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip -o consul-template.zip \
     && unzip consul-template.zip \
-    && chmod +x consul-template
+    && chmod +x consul-template \
     && rm -rf consul-template.zip
 
 
 EXPOSE 80 443
 
-ENTRYPOINT [ "supervisord -n"]
+VOLUME [ "/usr/local/openresty/nginx/conf" , "/usr/local/openresty/lualib"]
+
+ENTRYPOINT [ "supervisord", "-n"]
 
 CMD [ ]

@@ -1,5 +1,11 @@
 # api-gateway-by-openresty
     基于OpenResty（nginx+lua）的API网关。
+ 
+# 构建   
+    docker build -t duruo850/gateway:1.0.0 --no-cache .
+    
+    docker run -p 80:80 -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf -d duruo850/gateway:1.0.0
+ 
 # 功能
 * api认证
 * api鉴权
