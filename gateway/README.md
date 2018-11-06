@@ -1,10 +1,13 @@
 # api-gateway-by-openresty
+    
     基于OpenResty（nginx+lua）的API网关。
+ 
+    由于alpine系统不支持在使用nginx.conf的情况下更新,所有采用ubuntu系统
  
 # 构建   
     docker build -t duruo850/gateway:1.0.0 --no-cache .
     
-    docker run -p 80:80 -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf -d duruo850/gateway:1.0.0
+    docker run -p 80:80 -e CONSUL_URL="192.168.1.136:8500" -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf -d duruo850/gateway:1.0.0
  
 # 功能
 * api认证

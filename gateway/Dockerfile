@@ -1,4 +1,4 @@
-FROM openresty/openresty:1.13.6.2-1-alpine
+FROM openresty/openresty:1.13.6.2-1-bionic
 
 ADD ./nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 ADD ./nginx.ctpl /usr/local/openresty/nginx/conf/nginx.ctpl
@@ -12,14 +12,18 @@ ENV CONSUL_TEMPLATE_VERSION 0.19.5
 
 
 RUN cd /usr/bin \
-    && apk add --no-cache \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         supervisor \
         curl \
+    && rm -rf /var/lib/apt/lists/* \
     && curl -fSL https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip -o consul-template.zip \
     && unzip consul-template.zip \
     && chmod +x consul-template \
-    && rm -rf consul-template.zip
-
+    && rm -rf consul-template.zip \
+    && /usr/bin/consul-template \
+        -consul-addr=${CONSUL_URL}  \
+        -template="/usr/local/openresty/nginx/conf/nginx.ctpl:/usr/local/openresty/nginx/conf/nginx.conf:/usr/local/openresty/bin/openresty -s reload" --once
 
 EXPOSE 80 443
 
