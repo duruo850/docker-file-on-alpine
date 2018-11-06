@@ -18,8 +18,7 @@ ARG RESTY_CONFIG_OPTIONS="\
     --with-http_ssl_module \
     --with-stream_ssl_module \
     --with-threads \
-    --without-http_redis2_module
-    "
+    --without-http_redis2_module"
 ARG RESTY_CONFIG_OPTIONS_MORE=""
 
 LABEL resty_version="${RESTY_VERSION}"
