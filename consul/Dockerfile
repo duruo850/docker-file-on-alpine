@@ -1,5 +1,6 @@
 FROM duruo850/base:alpine3.8
 
+MAINTAINER Jay <zhanchenjin.2008@163.com>
 
 ADD ./config.json /consul/config.json
 
