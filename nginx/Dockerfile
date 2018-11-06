@@ -20,9 +20,8 @@ RUN addgroup -S nginx \
 		libxslt-dev \
 		gd-dev \
 		geoip-dev \
-	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz
-
-RUN CONFIG="\
+	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
+	&& CONFIG="\
 		--prefix=/etc/nginx \
 		--sbin-path=/usr/sbin/nginx \
 		--conf-path=/etc/nginx/nginx.conf \
@@ -38,8 +37,6 @@ RUN CONFIG="\
 	&& tar -zxC /usr/src -f nginx.tar.gz \
 	&& rm nginx.tar.gz \
 	&& cd /usr/src/nginx-$NGINX_VERSION \
-	&& ./configure $CONFIG --with-debug \
-	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& ./configure $CONFIG \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
@@ -52,9 +49,8 @@ RUN CONFIG="\
 	# then move `envsubst` out of the way so `gettext` can
 	# be deleted completely, then move `envsubst` back.
 	&& apk add --no-cache --virtual .gettext gettext \
-	&& mv /usr/bin/envsubst /tmp/
-
-RUN  runDeps="$( \
+	&& mv /usr/bin/envsubst /tmp/  \
+	&& runDeps="$( \
 		scanelf --needed --nobanner --format '%n#p' /usr/sbin/nginx  /tmp/envsubst \
 			| tr ',' '\n' \
 			| sort -u \
