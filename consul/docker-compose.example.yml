@@ -1,7 +1,7 @@
 version: "3"
 services:
     consul_server1:
-        image: "duruo850/cosule:1.3.0_alpine3.8"
+        image: "duruo850/consul:1.3.0_alpine3.8"
         container_name: "consul_server1"
         hostname: "consul_server1"
         restart: always
@@ -15,7 +15,7 @@ services:
             - "8301-8302:8301-8302/udp"
         command: " -server -bootstrap-expect 3"
     consul_server2:
-        image: "duruo850/cosule:1.3.0_alpine3.8"
+        image: "duruo850/consul:1.3.0_alpine3.8"
         container_name: "consul_server2"
         hostname: "consul_server2"
         restart: always
@@ -31,7 +31,7 @@ services:
             - "consul_server1:consul_server1"
         command: " -server -join consul_server1"
     consul_server3:
-        image: "duruo850/cosule:1.3.0_alpine3.8"
+        image: "duruo850/consul:1.3.0_alpine3.8"
         container_name: "consul_server3"
         hostname: "consul_server3"
         restart: always
@@ -48,7 +48,7 @@ services:
         command: " -server -join consul_server1"
 
     consul_web:
-        image: "duruo850/cosule:1.3.0_alpine3.8"
+        image: "duruo850/consul:1.3.0_alpine3.8"
         container_name: "consul_web"
         hostname: "consul_web"
         restart: always
