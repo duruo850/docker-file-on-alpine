@@ -1,10 +1,11 @@
 FROM openresty/openresty:1.13.6.2-1-bionic
 
-ADD ./nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
-ADD ./nginx.ctpl /usr/local/openresty/nginx/conf/nginx.ctpl
-ADD ./supervisord.conf /etc/supervisord.conf
-ADD ./lua/auth /usr/local/openresty/lualib/auth
-ADD ./lua/http /usr/local/openresty/lualib/resty
+ADD nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+ADD nginx.ctpl /usr/local/openresty/nginx/conf/nginx.ctpl
+ADD supervisord.conf /etc/supervisord.conf
+ADD lua/auth /usr/local/openresty/lualib/auth
+ADD lua/http /usr/local/openresty/lualib/resty
+ADD run /usr/local/bin/
 
 
 ENV CONSUL_URL 192.168.1.136:8500
@@ -21,14 +22,12 @@ RUN cd /usr/bin \
     && unzip consul-template.zip \
     && chmod +x consul-template \
     && rm -rf consul-template.zip \
-    && /usr/bin/consul-template \
-        -consul-addr=${CONSUL_URL}  \
-        -template="/usr/local/openresty/nginx/conf/nginx.ctpl:/usr/local/openresty/nginx/conf/nginx.conf:/usr/local/openresty/bin/openresty -s reload" --once
+    && chmod +x /usr/local/bin/run
 
 EXPOSE 80 443
 
 VOLUME [ "/usr/local/openresty/nginx/conf" , "/usr/local/openresty/lualib"]
 
-ENTRYPOINT [ "supervisord", "-n"]
+ENTRYPOINT [ "/usr/local/bin/run"]
 
 CMD [ ]
