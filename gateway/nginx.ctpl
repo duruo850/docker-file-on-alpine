@@ -46,15 +46,18 @@ http {
         }
 
         # services
-        {{range services}}{{$service:=.Name}}
+        #判断tags是否是public{{range .Tags}}{{if eq . "public" }}{{end}}{{end}}
+        {{range services}}{{$service:=.Name}}{{if and (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
         location  /{{$service}}/ {
             proxy_pass http://{{$service}}/;
-        }{{end}}
+        }
+        {{end}}{{end}}
     }
 
     #Upstreams
-    {{range services}} {{$service:=.Name}}
+    {{range services}}{{$service:=.Name}}{{if and (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
     upstream {{$service}} { {{range service $service }}
         server {{.Address}}:{{.Port}};{{end}}
-    }{{end}}
+    }
+    {{end}}{{end}}
 }
