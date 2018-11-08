@@ -26,7 +26,6 @@ RUN cd /usr/bin \
 
 EXPOSE 80 443
 
-VOLUME [ "/usr/local/openresty/nginx/conf" , "/usr/local/openresty/lualib"]
 
 ENTRYPOINT [ "/usr/local/bin/run"]
 

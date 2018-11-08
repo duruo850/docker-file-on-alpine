@@ -1,7 +1,5 @@
 #!/bin/bash
 set -e
 
-/usr/bin/consul-template -consul-addr=${CONSUL_URL} -template="/usr/local/openresty/nginx/conf/nginx.ctpl:/usr/local/openresty/nginx/conf/nginx.conf" --once
-
 exec supervisord -n
 
