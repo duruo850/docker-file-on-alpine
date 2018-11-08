@@ -13,6 +13,7 @@
     
     docker build -t duruo850/gateway:1.0.0 --no-cache .
     
+# 启动
     docker run -d -p 80:80 -e CONSUL_URL="192.168.1.136:8500" \
         -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
         -v `pwd`/lua/auth/auth.lua:/usr/local/openresty/lualib/auth/auth.lua \
