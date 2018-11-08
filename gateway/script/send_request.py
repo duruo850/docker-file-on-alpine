@@ -12,7 +12,7 @@ url="http://192.168.1.136/account/test"
 headers = {
     'KEY': "--key--",
     'VERSION': "--version--",
-    # 'TIME': "--seed--",
+    'TIME': "--seed--",
     'TOKEN': "--token--",
 }
 
