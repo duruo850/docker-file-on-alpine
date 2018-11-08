@@ -22,13 +22,20 @@ local cjson = require "cjson"
 
 local headers = ngx.req.get_headers()
 local res = ngx.location.capture("/account/verify", {method=ngx.HTTP_POST, headers=headers});
-ngx.log(ngx.INFO, "/account/verify res,", res.status, res.body, cjson.encode(headers))
+#ngx.log(ngx.INFO, "/account/verify res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
 
+
+-- 检查header
+if headers["KEY"] == nil or headers["VERSION"] == nil or headers["TIME"] == nil  or headers["TOKEN"] ==nil  then
+    ngx.log(ngx.INFO,"verify falied, header invalid, uri,", ngx.var.uri, "headers,", cjson.encode(headers))
+    ngx.exit(401)
+    return
+end
 
 
 -- 判断user_id是否存在
 if res.status ~= 200  then
-    ngx.log(ngx.INFO,"verify falied, status:", res.status, "uri,", ngx.var.uri, "headers,", cjson.encode(headers))
+    ngx.log(ngx.INFO,"verify falied, status error:", res.status, "uri,", ngx.var.uri, "headers,", cjson.encode(headers))
     ngx.exit(401)
     return
 end
@@ -54,4 +61,12 @@ if not user_id then
     ngx.log(ngx.INFO,"verify falied, not user_id, uri,", ngx.var.uri, "headers,", cjson.encode(headers))
     ngx.exit(401)
 end
+
+
+-- 添加user_id，并清空授权的相关参数
+ngx.req.set_header("user_id", user_id)
+ngx.req.clear_header("KEY")
+ngx.req.clear_header("VERSION")
+ngx.req.clear_header("TIME")
+ngx.req.clear_header("TOKEN")
 

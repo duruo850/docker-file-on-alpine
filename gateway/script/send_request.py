@@ -10,10 +10,10 @@ from urllib import request, error
 url="http://192.168.1.136/account/test"
 
 headers = {
-    'X-KEY': "--key--",
-    'X-VERSION': "--version--",
-    'X-SEED': "--seed--",
-    'X-TOKEN': "--token--",
+    'KEY': "--key--",
+    'VERSION': "--version--",
+    'TIME': "--seed--",
+    'TOKEN': "--token--",
 }
 
 req = request.Request(url=url, headers=headers, method="POST")
