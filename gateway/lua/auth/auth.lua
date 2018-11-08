@@ -22,7 +22,7 @@ local cjson = require "cjson"
 
 local headers = ngx.req.get_headers()
 local res = ngx.location.capture("/account/verify", {method=ngx.HTTP_POST, headers=headers});
-#ngx.log(ngx.INFO, "/account/verify res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
+-- ngx.log(ngx.INFO, "/account/verify res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
 
 
 -- 检查header
