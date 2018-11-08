@@ -3,11 +3,20 @@
     基于OpenResty（nginx+lua）的API网关。
  
     由于alpine系统不支持在使用nginx.conf的情况下更新,所有采用ubuntu系统
+    
+# consul_template
+
+    consul-template -consul-addr="192.168.1.136:8500" -template="nginx.ctpl:nginx.conf:/usr/local/bin/consul_handler" --once
+
  
 # 构建   
+    
     docker build -t duruo850/gateway:1.0.0 --no-cache .
     
-    docker run -p 80:80 -e CONSUL_URL="192.168.1.136:8500" -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf -d duruo850/gateway:1.0.0
+    docker run -d -p 80:80 -e CONSUL_URL="192.168.1.136:8500" \
+        -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
+        -v `pwd`/lua/auth/auth.lua:/usr/local/openresty/lualib/auth/auth.lua \
+        duruo850/gateway:1.0.0
  
 # 功能
 * api认证

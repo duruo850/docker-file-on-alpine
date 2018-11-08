@@ -1,3 +1,4 @@
 #!/bin/sh
 cp /tmp/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
 /usr/local/openresty/bin/openresty -s reload
+exit 0
