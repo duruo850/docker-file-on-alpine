@@ -17,6 +17,16 @@
     
     docker build -t duruo850/gateway:1.0.0 --no-cache .
     
+# 环境变量
+
+    CONSUL_URL 192.168.1.136:8500
+
+    CONSUL_TEMPLATE_VERSION 0.19.5
+
+    DOMAIN "my.domain"
+    
+    EMAIL "my.email@my.domain"
+    
 # 启动
     docker run -d -p 80:80 \
         -e CONSUL_URL="192.168.1.136:8500" \

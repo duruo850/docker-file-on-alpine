@@ -14,9 +14,6 @@ ADD run /usr/local/bin/
 ENV CONSUL_URL 192.168.1.136:8500
 ENV CONSUL_TEMPLATE_VERSION 0.19.5
 ENV TEMPLATE "/tmp/consul_template/nginx.ctpl:/tmp/consul_template/nginx.conf:/usr/local/bin/consul_handler"
-ENV HTTPS 1
-ENV DOMAIN "my.domain"
-ENV EMAIL "my.email@my.domain"
 
 # alpine' cp、mv is a versiob of busybox，different from ubuntu, so install coreutils
 RUN cd /usr/bin \
