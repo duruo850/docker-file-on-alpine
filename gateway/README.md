@@ -23,9 +23,9 @@
 
     CONSUL_TEMPLATE_VERSION 0.19.5
 
-    DOMAIN "my.domain"
+    DOMAIN "my.domain" , https证书的域名，如果有此变量，会自动采用https的方式，并且自动生成证书
     
-    EMAIL "my.email@my.domain"
+    EMAIL "my.email@my.domain"， https证书生成必须参数
     
 # 启动
     docker run -d -p 80:80 \
