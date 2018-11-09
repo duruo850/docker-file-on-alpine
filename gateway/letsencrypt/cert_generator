@@ -21,7 +21,7 @@ new() {
     cp /usr/local/bin/cert_generator /etc/periodic/daily/
 
     certbot certonly --no-self-upgrade -n --text --standalone \
-        --standalone-supported-challenges http-01 \
+        --preferred-challenges http-01 \
         -d "$DOMAIN" --keep --expand --agree-tos --email "$EMAIL" \
         || exit 1
 
