@@ -14,11 +14,11 @@ fi
 
 
 new() {
-    cp /tmp/consul_template/nginx_https.ctpl  /tmp/consul_template/nginx.ctpl
-    mkdir /certbot-root
+    cp -rf /tmp/consul_template/nginx_https.ctpl  /tmp/consul_template/nginx.ctpl
+    mkdir -p /certbot-root
 
     # renew daily on hour 2
-    cp /usr/local/bin/cert_generator /etc/periodic/daily/
+    cp -rf /usr/local/bin/cert_generator /etc/periodic/daily/
 
     certbot certonly --no-self-upgrade -n --text --standalone \
         --preferred-challenges http-01 \
@@ -26,7 +26,7 @@ new() {
         || exit 1
 
     # Create a dependable link to the first live cert directory.
-    ln -s `ls -1dA /etc/letsencrypt/live/*/ | head -n1` /usr/local/openresty/nginx/cert
+    ln -sf `ls -1dA /etc/letsencrypt/live/*/ | head -n1` /usr/local/openresty/nginx/cert
 }
 
 

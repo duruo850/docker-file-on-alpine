@@ -31,7 +31,7 @@ RUN cd /usr/bin \
     && rm -rf consul-template.zip \
     && chmod +x /usr/local/bin/run \
     && chmod +x /usr/local/bin/consul_handler \
-    && chmod +x /usr/local/bin/cert_generator
+    && chmod a+x /usr/local/bin/cert_generator
 
 EXPOSE 80 443
 

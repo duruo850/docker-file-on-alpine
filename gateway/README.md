@@ -23,10 +23,11 @@
         -e HTTPS=1 \
         -e DOMAIN=my.domain \
         -e EMAIL=my.email@my.domain \
-        -v /srv/letsencrypt:/etc/letsencrypt \
         -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
         -v `pwd`/lua/auth/auth.lua:/usr/local/openresty/lualib/auth/auth.lua \
         duruo850/gateway:1.0.0
+        
+    -v /etc/letsencrypt:/etc/letsencrypt
  
 # 功能
 * api认证
