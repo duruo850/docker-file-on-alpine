@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
 
-/usr/local/bin/certbot new
+/usr/local/bin/cert_generator new
 pkill -9 crond
 exec supervisord -n

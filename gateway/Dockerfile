@@ -6,9 +6,9 @@ ADD lua/http /usr/local/openresty/lualib/resty
 ADD consul_template/nginx.ctpl /tmp/consul_template/
 ADD consul_template/nginx_https.ctpl /tmp/consul_template/
 ADD consul_template/consul_handler /usr/local/bin/
+ADD letsencrypt/cert_generator /usr/local/bin/
 ADD supervisor/supervisord.conf /etc/
 ADD run /usr/local/bin/
-ADD letsencrypt/certbot /usr/local/bin/
 
 
 ENV CONSUL_URL 192.168.1.136:8500
@@ -18,7 +18,7 @@ ENV HTTPS 1
 ENV DOMAIN "my.domain"
 ENV EMAIL "my.email@my.domain"
 
-# alpine自带的cp, mv是busybox的版本，和ubuntu有些区别，所以安装coreutils
+# alpine' cp、mv is a versiob of busybox，different from ubuntu, so install coreutils
 RUN cd /usr/bin \
     && apk add --no-cache \
         coreutils \

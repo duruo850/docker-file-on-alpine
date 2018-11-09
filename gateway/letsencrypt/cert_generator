@@ -16,7 +16,9 @@ fi
 new() {
     cp /tmp/consul_template/nginx_https.ctpl  /tmp/consul_template/nginx.ctpl
     mkdir /certbot-root
-    cp /usr/local/bin/certbot /etc/periodic/monthly/
+
+    # renew daily on hour 2
+    cp /usr/local/bin/cert_generator /etc/periodic/daily/
 
     certbot certonly --no-self-upgrade -n --text --standalone \
         --standalone-supported-challenges http-01 \
@@ -30,6 +32,9 @@ new() {
 
 renew() {
     certbot -q renew --webroot --webroot-path /certbot-root --renew-hook "/usr/local/openresty/bin/openresty -s reload"
+
+    # force renwal will new a cert
+    #certbot -q renew --force-renewal --webroot --webroot-path /certbot-root --renew-hook "/usr/local/openresty/bin/openresty -s reload"
 }
 
 
