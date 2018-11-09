@@ -2,7 +2,8 @@
     
     基于OpenResty（nginx+lua）的API网关。
  
-    由于alpine系统不支持在使用nginx.conf的情况下更新,所有采用ubuntu系统
+    This container provides an Nginx application with Let's Encrypt certificates 
+    generated at startup, as well as renewed (if necessary) and Nginx gracefully restarted.
     
 # consul_template
 
@@ -14,7 +15,12 @@
     docker build -t duruo850/gateway:1.0.0 --no-cache .
     
 # 启动
-    docker run -d -p 80:80 -e CONSUL_URL="192.168.1.136:8500" \
+    docker run -d -p 80:80 \
+        -e CONSUL_URL="192.168.1.136:8500" \
+        -e HTTPS=1 \
+        -e DOMAIN=my.domain \
+        -e EMAIL=my.email@my.domain \
+        -v /srv/letsencrypt:/etc/letsencrypt \
         -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
         -v `pwd`/lua/auth/auth.lua:/usr/local/openresty/lualib/auth/auth.lua \
         duruo850/gateway:1.0.0

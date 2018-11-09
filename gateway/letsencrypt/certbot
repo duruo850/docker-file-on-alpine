@@ -1,0 +1,46 @@
+#!/bin/sh
+
+
+if [ -z "$HTTPS" ]; then
+    exit 0
+fi
+
+
+if [ $# -lt 1 ] ; then
+    cmd=renew
+else
+    cmd=$1
+fi
+
+
+new() {
+    cp /tmp/consul_template/nginx_https.ctpl  /tmp/consul_template/nginx.ctpl
+    mkdir /certbot-root
+    cp /usr/local/bin/certbot /etc/periodic/monthly/
+
+    certbot certonly --no-self-upgrade -n --text --standalone \
+        --standalone-supported-challenges http-01 \
+        -d "$DOMAIN" --keep --expand --agree-tos --email "$EMAIL" \
+        || exit 1
+
+    # Create a dependable link to the first live cert directory.
+    ln -s `ls -1dA /etc/letsencrypt/live/*/ | head -n1` /usr/local/openresty/nginx/cert
+}
+
+
+renew() {
+    certbot -q renew --webroot --webroot-path /certbot-root --renew-hook "/usr/local/openresty/bin/openresty -s reload"
+}
+
+
+case $cmd in
+new)
+    new
+;;
+renew)
+    renew
+;;
+esac
+exit 0
+
+

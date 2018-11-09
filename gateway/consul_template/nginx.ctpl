@@ -1,0 +1,56 @@
+#user  nobody;
+worker_processes  8;
+
+error_log  /usr/local/openresty/nginx/logs/error.log debug;
+
+pid        /usr/local/openresty/nginx/logs/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /usr/local/openresty/nginx/logs/access.log  main;
+
+    server {
+        listen 80;
+        #listen 443 ssl;
+        server_name  localhost;
+        #ssl on;
+
+        #gzip  on;
+        charset utf-8;
+        access_log  /usr/local/openresty/nginx/logs/access-localhost.site.log  main;
+    
+        # lua_code_cache is off; this will hurt performance
+        #lua_code_cache off;
+        access_by_lua_file /usr/local/openresty/lualib/auth/auth.lua;
+       
+        location / {
+            root   /usr/local/openresty/nginx/html;
+            index  index.html index.htm;
+        }
+
+        # services
+        #判断tags是否是public{{range .Tags}}{{if eq . "public" }}{{end}}{{end}}
+        {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
+        location  /{{$service}}/ {
+            proxy_pass http://{{$service}};
+        }
+        {{end}}{{end}}
+    }
+
+    #Upstreams
+    {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
+    upstream {{$service}} { {{range service $service }}
+        server {{.Address}}:{{.Port}};{{end}}
+    }
+    {{end}}{{end}}
+}
