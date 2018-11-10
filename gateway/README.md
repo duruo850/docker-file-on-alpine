@@ -38,7 +38,6 @@
 # 启动
     docker run -d -p 80:80 \
         -e CONSUL_URL="192.168.1.136:8500" \
-        -e HTTPS=1 \
         -e DOMAIN=my.domain \
         -e EMAIL=my.email@my.domain \
         -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
