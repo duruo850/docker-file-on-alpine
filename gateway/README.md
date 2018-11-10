@@ -36,7 +36,7 @@
     EMAIL "my.email@my.domain"， https证书生成必须参数
     
 # 启动
-    docker run -d -p 80:80 \
+    docker run -d -p 80:80 -p 443:443 \
         -e CONSUL_URL="192.168.1.136:8500" \
         -e DOMAIN=my.domain \
         -e EMAIL=my.email@my.domain \
