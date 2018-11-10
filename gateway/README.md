@@ -9,9 +9,17 @@
 
     consul-template -consul-addr="192.168.1.136:8500" -template="nginx.ctpl:nginx.conf:/usr/local/bin/consul_handler" --once
 
-# letsencrypt
-
-    日志路径： /var/log/letsencrypt/letsencrypt.log
+# 相关路径
+    
+    openresty配置文件：/usr/local/openresty/nginx/conf
+    
+    lua授权鉴权脚本： /usr/local/openresty/lualib/auth/
+    
+    letsencrypt：
+    
+        证书路径： /etc/letsencrypt
+        
+        日志路径： /var/log/letsencrypt/letsencrypt.log
  
 # 构建   
     

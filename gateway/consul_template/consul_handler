@@ -1,4 +1,4 @@
 #!/bin/sh
-cp /tmp/consul_template/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+cp /tmp/nginx.conf.gen /usr/local/openresty/nginx/conf/nginx.conf
 /usr/local/openresty/bin/openresty -s reload
 exit 0

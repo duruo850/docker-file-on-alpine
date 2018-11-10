@@ -14,11 +14,11 @@ fi
 
 
 new() {
-    cp -rf /tmp/consul_template/nginx_https.ctpl  /tmp/consul_template/nginx.ctpl
+    cp -rf /usr/local/bin/consul_template/nginx_https.ctpl  /usr/local/bin/consul_template/nginx.ctpl
     mkdir -p /certbot-root
 
     # renew daily on hour 2
-    cp -rf /usr/local/bin/cert_generator /etc/periodic/daily/
+    cp -rf /usr/local/bin/letsencrypt/cert_generator /etc/periodic/daily/
 
     certbot certonly --no-self-upgrade -n --text --standalone \
         --preferred-challenges http-01 \
