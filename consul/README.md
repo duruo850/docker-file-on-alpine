@@ -44,7 +44,7 @@ cluster--192.168.1.136(cluster), 192.168.1.165, 192.168.1.128:
         
     deregister  :
     
-        curl -X PUT -d '{"id": "nginx3","name": "nginx","address": "192.168.1.128","port": 80,"checks": [{"http": "http://192.168.1.128/","interval": "5s"}]}' http://127.0.0.1:8500/v1/agent/service/deregister   
+        curl -X PUT http://192.168.1.136:8500/v1/agent/service/deregister/{id}  
         
     get nginx service:
     
