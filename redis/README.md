@@ -6,12 +6,14 @@ data is stored in the VOLUME /data
 
 # build
 
-docker build -t duruo850/duruo850/redis:5.0.1-alpine3.8 --no-cache .
+docker build -t duruo850/redis:5.0.1-alpine3.8 --no-cache .
 
 
 # Environment variables
 
 - `REDIS_PASSWORD`: The password for the redis security
+
+- `REDIS_HOST`: The host for the redis to bind, default is 0.0.0.0
 
 # Example usage: 
 
