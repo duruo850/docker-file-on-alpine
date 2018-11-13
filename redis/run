@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+REDIS_CONF=/usr/local/bin/redis.conf
+REDIS_PASSWORD=${REDIS_PASSWORD:-}
+
+update_conf() {
+  sed -i 's%^# requirepass foobared%requirepass $REDIS_PASSWORD%/' $REDIS_CONF
+}
+
+
+if [ ! -f "/tmp/is_init" ]; then
+  touch /tmp/is_init
+  update_conf
+fi
+
+echo "Starting redis-server..."
+exec docker-entrypoint.sh
+
+
+
+
