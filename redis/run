@@ -6,14 +6,16 @@ REDIS_PASSWORD=${REDIS_PASSWORD:-}
 REDIS_HOST=${REDIS_HOST:-"0.0.0.0"}
 
 update_conf() {
+    # 由于conf有可能作为volume，所以只能采用cp方式，不能采用mv，vim等方式，这种方式容器内同步到宿主机有问题
+    cp $REDIS_CONF /tmp/redis.conf
+
     if [ -n "$REDIS_PASSWORD" ]; then
-        # 由于conf有可能作为volume，所以只能采用cp方式，不能采用mv，vim等方式，这种方式容器内同步到宿主机有问题
-        cp $REDIS_CONF /tmp/redis.conf
         sed -i "s%^# requirepass foobared%requirepass $REDIS_PASSWORD%" /tmp/redis.conf
-        cp /tmp/redis.conf $REDIS_CONF
-        rm /tmp/redis.conf
     fi
-    sed -i "s%^bind 127.0.0.1%bind $REDIS_HOST%" $REDIS_CONF
+    sed -i "s%^bind 127.0.0.1%bind $REDIS_HOST%" /tmp/redis.conf
+
+    cp /tmp/redis.conf $REDIS_CONF
+    rm /tmp/redis.conf
 }
 
 
