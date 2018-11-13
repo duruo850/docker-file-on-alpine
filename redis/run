@@ -6,8 +6,10 @@ REDIS_PASSWORD=${REDIS_PASSWORD:-}
 REDIS_HOST=${REDIS_HOST:-"0.0.0.0"}
 
 update_conf() {
-  sed -i "s%^# requirepass foobared%requirepass $REDIS_PASSWORD%" $REDIS_CONF
-  sed -i "s%^bind 127.0.0.1%bind $REDIS_HOST%" $REDIS_CONF
+    if [ -n "$REDIS_PASSWORD" ]; then
+        sed -i "s%^# requirepass foobared%requirepass $REDIS_PASSWORD%" $REDIS_CONF
+    fi
+    sed -i "s%^bind 127.0.0.1%bind $REDIS_HOST%" $REDIS_CONF
 }
 
 
