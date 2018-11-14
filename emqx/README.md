@@ -3,7 +3,7 @@
 *EMQ* (Erlang MQTT Broker) is a distributed, massively scalable, highly extensible MQTT message broker written in Erlang/OTP.
 
 
-### Build emqttd
+### Build emqx
 
 You can build this docker image by yourself.
 
@@ -19,12 +19,13 @@ docker build -t duruo850/emqx:3.0_alpine3.8 --no-cache .
 
 - `EMQ_AUTH_HTTP_URL`: http auth url, example http://127.0.0.1:8080/mqtt/auth
 
-### Run emqttd
+### Run emqx
 
 Execute some command under this docker image
 
 ```
-docker run -d  --name emqx -p 80:80 -p 443:443 \
+docker run -d  --name emqx \
+        -p 1883:1883  -p 8080:8080 -p 8083-8084:8083-8084 -p 8883:8883 -p 18083:18083  -p 4369:4369 -p 6000-6100:6000-6100 \
         -e EMQ_ADMIN_PASSWORD="123456" \
         -e EMQ_LOADED_PLUGINS="emqx_auth_http,emqx_auth_username"\
         -e EMQ_AUTH_HTTP_URL="http://127.0.0.1:8080/mqtt/auth"

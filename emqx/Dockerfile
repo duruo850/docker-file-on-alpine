@@ -2,8 +2,8 @@ FROM duruo850/base:alpine3.8
 
 MAINTAINER Jay <zhanchenjin.2008@163.com>
 
-ADD emqx.conf /etc/
-ADD emqx_auth_http.conf /etc/plugins/
+ADD emqx.conf /tmp
+ADD emqx_auth_http.conf /tmp
 ADD run /usr/local/bin/
 ADD tuning /usr/local/bin/
 
@@ -78,10 +78,12 @@ RUN set -ex \
     # removing fetch deps and build deps
     && apk --purge del .build-deps .fetch-deps \
     && rm -rf /var/cache/apk/* \
+    && mv /tmp/emqx.conf  /usr/local/bin/emqx/etc/  \
+    && mv /tmp/emqx_auth_http.conf  /usr/local/bin/emqx/etc/plugins/ \
     && chmod +x /usr/local/bin/run \
     && chmod +x /usr/local/bin/tuning
 
-# emqttd will occupy these port:
+# emqx will occupy these port:
 # - 1883 port for MQTT
 # - 8883 port for MQTT(SSL)
 # - 8083 for WebSocket/HTTP
@@ -94,7 +96,7 @@ EXPOSE 1883 8883 8083 8084 8080 18083 4369 6000-6999
 
 WORKDIR /usr/local/bin
 
-VOLUME ["/usr/local/bin/emqttd"]
+VOLUME ["/usr/local/bin/emqx"]
 
 ENTRYPOINT [ "run" ]
 

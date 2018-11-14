@@ -12,7 +12,7 @@ update_conf() {
         echo "EMQ_LOADED_PLUGINS=$EMQ_LOADED_PLUGINS"
         # First, remove special char at header
         # Next, replace special char to ".\n" to fit emq loaded_plugins format
-        echo $(echo "$EMQ_LOADED_PLUGINS."|sed -e "s/^[^A-Za-z0-9_]\{1,\}//g"|sed -e "s/[^A-Za-z0-9_]\{1,\}/\. /g")|tr ' ' '\n' > /usr/local/bin/emqttd/data/loaded_plugins
+        echo $(echo "$EMQ_LOADED_PLUGINS."|sed -e "s/^[^A-Za-z0-9_]\{1,\}//g"|sed -e "s/[^A-Za-z0-9_]\{1,\}/\. /g")|tr ' ' '\n' > /usr/local/bin/emqx/data/loaded_plugins
     fi
 
     ## EMQ Main script
@@ -21,12 +21,12 @@ update_conf() {
 
     if [[ ! -z "$EMQ_ADMIN_PASSWORD" ]]; then
         echo "['$(date -u +"%Y-%m-%dT%H:%M:%SZ")']:admin password changed to $EMQ_ADMIN_PASSWORD"
-        /usr/local/bin/emqttd/bin/emqttd_ctl admins passwd admin $EMQ_ADMIN_PASSWORD &
+        /usr/local/bin/emqx/bin/emqx_ctl admins passwd admin $EMQ_ADMIN_PASSWORD &
     fi
 
 
     if [ -n "$EMQ_AUTH_HTTP_URL" ]; then
-        sed -i "s%^auth.http.auth_req = http://127.0.0.1:8991/mqtt/auth%auth.http.auth_req =  $EMQ_AUTH_HTTP_URL%"  /etc/plugins/emqx_auth_http.conf
+        sed -i "s%^auth.http.auth_req = http://127.0.0.1:8991/mqtt/auth%auth.http.auth_req =  $EMQ_AUTH_HTTP_URL%"  /usr/local/bin/emqx/etc/plugins/emqx_auth_http.conf
     fi
 }
 
@@ -34,4 +34,4 @@ if [ ! -f "/tmp/is_init" ]; then
   touch /tmp/is_init
   update_conf
 fi
-/usr/local/bin/emqttd/bin/emqttd foreground
+/usr/local/bin/emqx/bin/emqx foreground
