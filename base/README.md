@@ -6,4 +6,6 @@ docker build -t duruo850/base:alpine3.8 --no-cache .
 
 docker tag duruo850/base:latest duruo850/base:X.Y.Z
 
+docker run -it duruo850/base:alpine3.8 /bin/sh
+
 docker push duruo850/base
