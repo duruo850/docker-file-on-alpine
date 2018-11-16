@@ -1,4 +1,0 @@
-#!/bin/sh
-set -e
-exec /opt/emqttd/tuning
-exec /opt/emqttd/start.sh
