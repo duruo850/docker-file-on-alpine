@@ -55,7 +55,7 @@ http {
 
         # services
         #判断tags是否是public{{range .Tags}}{{if eq . "public" }}{{end}}{{end}}
-        {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
+        {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))  (not ($service |regexMatch "emq*"))  (not ($service |regexMatch "prometheus*"))  (not ($service |regexMatch "stats*"))  (not ($service |regexMatch "python*")) }}
         location  /{{$service}}/ {
             proxy_pass http://{{$service}};
         }
@@ -63,7 +63,7 @@ http {
     }
 
     #Upstreams
-    {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))    }}
+    {{range services}}{{$service:=.Name}}{{if and (service $service "passing") (not ($service |regexMatch "consul*")) (not ($service |regexMatch "nginx*"))  (not ($service |regexMatch "gateway*")) (not ($service |regexMatch "redis*")) (not ($service |regexMatch "mysql*")) (not ($service |regexMatch "rabbitmq*"))  (not ($service |regexMatch "visualizer*"))  (not ($service |regexMatch "mqtt*"))  (not ($service |regexMatch "emq*"))  (not ($service |regexMatch "grafana*")) (not ($service |regexMatch "prometheus*")) (not ($service |regexMatch "stats*"))  (not ($service |regexMatch "python*")) }}
     upstream {{$service}} { {{range service $service }}
         server {{.Address}}:{{.Port}};{{end}}
     }

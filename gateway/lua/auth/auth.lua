@@ -13,7 +13,7 @@ local cjson = require "cjson"
 local headers = ngx.req.get_headers()
 
 -- 检查header
-if headers["KEY"] == nil or headers["VERSION"] == nil or headers["TIME"] == nil  or headers["TOKEN"] ==nil  then
+if headers["Key"] == nil or headers["Version"] == nil or headers["Time"] == nil  or headers["Token"] ==nil  then
     ngx.log(ngx.INFO,"verify falied, header invalid, uri,", ngx.var.uri, "headers,", cjson.encode(headers))
     ngx.exit(401)
     return
@@ -51,9 +51,9 @@ if not user_id then
 end
 
 -- 添加user_id，并清空授权的相关参数
-ngx.req.set_header("user_id", user_id)
-ngx.req.clear_header("KEY")
-ngx.req.clear_header("VERSION")
-ngx.req.clear_header("TIME")
-ngx.req.clear_header("TOKEN")
+ngx.req.set_header("User-Id", user_id)
+ngx.req.clear_header("Key")
+ngx.req.clear_header("Version")
+ngx.req.clear_header("Time")
+ngx.req.clear_header("Token")
 
