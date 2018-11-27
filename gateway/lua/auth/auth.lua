@@ -1,9 +1,9 @@
-local no_need_login_urls = {"/account/login/", "/account/register"}
+local no_need_login_urls = {"/user", "/user/authorization"}
 local uri = ngx.var.uri
 
 -- 不需要登录验证的url直接跳过
 for k,v in ipairs(no_need_login_urls) do
-    if uri == v then
+    if uri == v and ngx.req.get_method() == ngx.HTTP_POST then
         ngx.log(ngx.WARN,"不需要登录URL:",uri)
         return
     end
@@ -20,8 +20,8 @@ if headers["Key"] == nil or headers["Version"] == nil or headers["Time"] == nil 
 end
 
 -- 请求account服务做账号有效性检查
-local res = ngx.location.capture("/account/verify", {method=ngx.HTTP_POST, headers=headers});
--- ngx.log(ngx.INFO, "/account/verify res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
+local res = ngx.location.capture("/user/authorization", {method=ngx.HTTP_GET, headers=headers});
+-- ngx.log(ngx.INFO, "/user/authorization res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
 
 -- 判断user_id是否存在
 if res.status ~= 200  then

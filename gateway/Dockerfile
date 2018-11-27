@@ -32,8 +32,8 @@ RUN cd /usr/bin \
 
 EXPOSE 80 443
 
-WORKDIR /usr/local/bin
+WORKDIR /usr/local/openresty/
 
-ENTRYPOINT [ "run" ]
+ENTRYPOINT [ "/usr/local/bin/run" ]
 
 CMD [ ]
