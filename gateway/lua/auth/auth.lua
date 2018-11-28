@@ -1,7 +1,7 @@
 local uri = ngx.var.uri
 
 -- disable urls to access
-local disable_urls = {{"/user/authorization", "GET"},}
+local disable_urls = {{"/account/authorization", "GET"},}
 
 for k,v in ipairs(disable_urls) do
     if uri == v[1] and ngx.req.get_method() == v[2] then
@@ -13,7 +13,7 @@ end
 
 
 -- auths url not need to check authorization
-local auth_urls = {{"/user/phone", "GET"}, {"/user/user_name", "GET"}, {"/sms_code", "POST"}, {"/user", "POST"}, {"/user/authorization", "POST"}}
+local auth_urls = {{"/account/phone", "GET"}, {"/account/user_name", "GET"}, {"/account/sms_code", "POST"}, {"/account/user", "POST"}, {"/account/authorization", "POST"}}
 
 for k,v in ipairs(auth_urls) do
     if uri == v[1] and ngx.req.get_method() == v[2] then
@@ -33,7 +33,7 @@ if headers["Key"] == nil or headers["Version"] == nil or headers["Time"] == nil 
 end
 
 -- check account authorization
-local res = ngx.location.capture("/user/authorization", {method=ngx.HTTP_GET, headers=headers});
+local res = ngx.location.capture("/account/authorization", {method=ngx.HTTP_GET, headers=headers});
 -- ngx.log(ngx.INFO, "/user/authorization res, status:", res.status, ", body: ", res.body, ", headers: ", cjson.encode(headers))
 
 -- check status
