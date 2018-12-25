@@ -60,7 +60,7 @@ services:
         ports:
             - "8400:8400"
             - "8500:8500"
-            - "8600:53"
+            - "8600:53/udp"
         links:
             - "consul_server1:consul_server1"
         command: " -server -join consul_server1"
