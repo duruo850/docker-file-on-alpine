@@ -1,6 +1,10 @@
 #!/bin/sh
 
 
-cp -rf /usr/local/bin/nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+if [ -n "$DOMAIN" ]; then
+    cp -rf /usr/local/bin/nginx/nginx_https.conf /usr/local/openresty/nginx/conf/nginx.conf
+else
+    cp -rf /usr/local/bin/nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+fi
 
 

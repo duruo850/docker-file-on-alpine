@@ -22,14 +22,14 @@
     
 # 启动
     docker run -d -p 80:80 -p 443:443 \
-        -e CONSUL_URL="192.168.1.136:8500" \
         -e DOMAIN=my.domain \
         -e EMAIL=my.email@my.domain \
         -v `pwd`/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf \
-        -v `pwd`/lua/auth/auth.lua:/usr/local/openresty/lualib/auth/auth.lua \
-        duruo850/gateway:1.0.0
+        duruo850/nginx_with_letsencrypt:1.0.0
         
     -v /etc/letsencrypt:/etc/letsencrypt
+    
+    -v /usr/local/openresty/nginx/html:/usr/local/openresty/nginx/html
  
 # 实现
 #### 技术
