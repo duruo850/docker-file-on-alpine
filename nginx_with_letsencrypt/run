@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+/usr/local/bin/nginx/conf_wapper
+/usr/local/bin/letsencrypt/cert_generator new
+exec supervisord -n

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+
+cp -rf /usr/local/bin/nginx/nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
+
+

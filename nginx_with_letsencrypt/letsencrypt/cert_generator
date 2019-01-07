@@ -1,0 +1,50 @@
+#!/bin/sh
+
+
+if [ -z "$DOMAIN" ]; then
+    exit 0
+fi
+
+
+if [ $# -lt 1 ] ; then
+    cmd=renew
+else
+    cmd=$1
+fi
+
+
+new() {
+    mkdir -p /certbot-root
+
+    # renew daily on hour 2
+    cp -rf /usr/local/bin/letsencrypt/cert_generator /etc/periodic/daily/
+
+    certbot certonly --no-self-upgrade -n --text --standalone \
+        --preferred-challenges http-01 \
+        -d "$DOMAIN" --keep --expand --agree-tos --email "$EMAIL" \
+        || exit 1
+
+    # Create a dependable link to the first live cert directory.
+    ln -sf `ls -1dA /etc/letsencrypt/live/*/ | head -n1` /usr/local/openresty/nginx/cert
+}
+
+
+renew() {
+    certbot -q renew --webroot --webroot-path /certbot-root --renew-hook "/usr/local/openresty/bin/openresty -s reload"
+
+    # force renwal will new a cert
+    #certbot -q renew --force-renewal --webroot --webroot-path /certbot-root --renew-hook "/usr/local/openresty/bin/openresty -s reload"
+}
+
+
+case $cmd in
+new)
+    new
+;;
+renew)
+    renew
+;;
+esac
+exit 0
+
+
